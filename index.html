@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS STARGATE | Virtue Vessel v3.0</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #050508;
+  color: #e0e0f0;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  padding: 20px;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+.header {
+  text-align: center;
+  padding: 30px 0;
+  border-bottom: 2px solid #00d4ff;
+  margin-bottom: 30px;
+}
+.header h1 {
+  font-size: 2.5em;
+  color: #00d4ff;
+  text-shadow: 0 0 20px rgba(0,212,255,0.5);
+  letter-spacing: 4px;
+}
+.header .subtitle {
+  color: #888;
+  font-size: 0.9em;
+  letter-spacing: 6px;
+  margin-top: 8px;
+}
+.header .version {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 4px 16px;
+  border: 1px solid #ff0040;
+  color: #ff0040;
+  border-radius: 16px;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+.portal-section {
+  background: #0d0d14;
+  border-radius: 20px;
+  padding: 30px;
+  margin: 30px 0;
+  border: 1px solid #1a1a2e;
+  text-align: center;
+}
+.portal-title {
+  font-size: 1.3em;
+  color: #FFD700;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+}
+.stargate-ring {
+  width: 300px;
+  height: 300px;
+  margin: 20px auto;
+  position: relative;
+}
+.artifact-node {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.8em;
+  border: 2px solid;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.artifact-node:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px currentColor;
+}
+.artifact-node.thc {
+  background: rgba(46,139,87,0.3);
+  border-color: #2E8B57;
+  color: #2E8B57;
+  top: 0; left: 50%; transform: translateX(-50%);
+}
+.artifact-node.cellulose {
+  background: rgba(222,184,135,0.3);
+  border-color: #DEB887;
+  color: #DEB887;
+  top: 50%; right: 0; transform: translateY(-50%);
+}
+.artifact-node.sildenafil {
+  background: rgba(65,105,225,0.3);
+  border-color: #4169E1;
+  color: #4169E1;
+  bottom: 15%; right: 15%;
+}
+.artifact-node.honey {
+  background: rgba(255,215,0,0.3);
+  border-color: #FFD700;
+  color: #FFD700;
+  bottom: 15%; left: 15%;
+}
+.artifact-node.meth {
+  background: rgba(255,69,0,0.3);
+  border-color: #FF4500;
+  color: #FF4500;
+  top: 50%; left: 0; transform: translateY(-50%);
+}
+.dodeca-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+.dodeca-cell {
+  aspect-ratio: 1;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid #1a1a2e;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  color: #666;
+}
+.dodeca-cell.filled {
+  background: rgba(0,212,255,0.1);
+  border-color: #00d4ff;
+  color: #00d4ff;
+  font-weight: bold;
+}
+.origami-info {
+  background: #0d0d14;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 30px 0;
+  border: 1px solid #1a1a2e;
+}
+.origami-info h3 {
+  color: #FFD700;
+  margin-bottom: 12px;
+  font-size: 1.1em;
+}
+.origami-info p {
+  color: #888;
+  font-size: 0.9em;
+  margin-bottom: 8px;
+}
+.origami-info .highlight {
+  color: #00d4ff;
+  font-weight: bold;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+.card {
+  background: #0d0d14;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #1a1a2e;
+}
+.card.thc { border-top: 4px solid #2E8B57; }
+.card.cellulose { border-top: 4px solid #DEB887; }
+.card.sildenafil { border-top: 4px solid #4169E1; }
+.card.honey { border-top: 4px solid #FFD700; }
+.card.meth { border-top: 4px solid #FF4500; }
+.card.theta { border-top: 4px solid #00d4ff; }
+.card-title {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.card-formula {
+  color: #666;
+  font-size: 0.85em;
+  font-family: monospace;
+  margin-bottom: 12px;
+}
+.card-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  font-weight: bold;
+  margin-right: 8px;
+}
+.badge-sig5 { background: rgba(46,139,87,0.2); color: #2E8B57; border: 1px solid #2E8B57; }
+.badge-sig7 { background: rgba(222,184,135,0.2); color: #DEB887; border: 1px solid #DEB887; }
+.badge-sig6 { background: rgba(65,105,225,0.2); color: #4169E1; border: 1px solid #4169E1; }
+.badge-sig4 { background: rgba(255,215,0,0.2); color: #FFD700; border: 1px solid #FFD700; }
+.badge-sig9 { background: rgba(0,212,255,0.2); color: #00d4ff; border: 1px solid #00d4ff; }
+.badge-master { background: rgba(255,0,64,0.15); color: #ff0040; border: 1px solid #ff0040; }
+.card-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+.stat {
+  text-align: center;
+  padding: 12px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+}
+.stat-label {
+  font-size: 0.7em;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.stat-value {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin-top: 4px;
+}
+.card-footer {
+  font-size: 0.8em;
+  color: #666;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.03);
+}
+.audio-section {
+  background: #0d0d14;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 30px 0;
+  border: 1px solid #1a1a2e;
+}
+.section-title {
+  text-align: center;
+  color: #FFD700;
+  font-size: 1.2em;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+}
+.audio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.audio-card {
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #1a1a2e;
+}
+.audio-title {
+  font-weight: bold;
+  font-size: 1em;
+  margin-bottom: 4px;
+}
+.audio-meta {
+  color: #666;
+  font-size: 0.8em;
+  margin-bottom: 12px;
+}
+audio {
+  width: 100%;
+  height: 36px;
+  border-radius: 18px;
+}
+.sacred-section {
+  background: #0d0d14;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 30px 0;
+  border: 1px solid #1a1a2e;
+}
+.sacred-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.sacred-item {
+  text-align: center;
+  padding: 16px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  border: 1px solid #1a1a2e;
+}
+.sacred-num { font-size: 1.3em; font-weight: bold; color: #FFD700; }
+.sacred-arrow { color: #555; font-size: 0.8em; }
+.sacred-freq { font-size: 1.1em; font-weight: bold; }
+.matrix-section {
+  background: #0d0d14;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 30px 0;
+  border: 1px solid #1a1a2e;
+}
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.matrix-item {
+  text-align: center;
+  padding: 20px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  border: 1px solid #1a1a2e;
+}
+.matrix-pair { font-size: 0.8em; color: #888; }
+.matrix-result {
+  font-size: 2em;
+  font-weight: bold;
+  color: #00d4ff;
+  margin: 8px 0;
+}
+.matrix-result.master { color: #ff0040; }
+.matrix-meaning { font-size: 0.75em; color: #aaa; }
+.footer {
+  text-align: center;
+  padding: 30px;
+  border-top: 1px solid #1a1a2e;
+  margin-top: 40px;
+  color: #555;
+  font-size: 0.85em;
+}
+.footer-brand {
+  color: #00d4ff;
+  font-size: 1.2em;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin-bottom: 8px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>VIRTUE VESSEL</h1>
+  <div class="subtitle">NEXUS STARGATE FREQUENCY SYSTEM</div>
+  <div class="version">v3.0 ORIGAMI PORTAL</div>
+</div>
+
+<div class="portal-section">
+  <div class="portal-title">STARGATE & NEXUS ORIGAMI PORTAL</div>
+  <p style="color:#888; margin-bottom:20px;">Designed by David Mitchell | 5-Artifact Stargate Ring | 20-Artifact Nexus Dodecahedron</p>
+  
+  <div style="margin:30px 0;">
+    <div style="color:#FFD700; font-size:1.1em; margin-bottom:16px;">STARGATE RING (5 Compound Nodes)</div>
+    <div class="stargate-ring">
+      <div class="artifact-node thc" title="THC - Sig 5 - Freedom/Change">THC<br>5</div>
+      <div class="artifact-node cellulose" title="Cellulose - Sig 7 - Spiritual Truth">CEL<br>7</div>
+      <div class="artifact-node sildenafil" title="Sildenafil - Sig 6 - Harmony/Service">SIL<br>6</div>
+      <div class="artifact-node honey" title="Honey - Sig 4 - Foundation/Structure">HON<br>4</div>
+      <div class="artifact-node meth" title="Methamphetamine - Sig 7 - Spiritual Truth">MET<br>7</div>
+    </div>
+  </div>
+  
+  <div style="margin:30px 0;">
+    <div style="color:#FFD700; font-size:1.1em; margin-bottom:16px;">NEXUS DODECAHEDRON (20 Vertices + 12 Faces + 30 Edges)</div>
+    <div class="dodeca-grid">
+      <div class="dodeca-cell">V1<br>THC</div>
+      <div class="dodeca-cell filled">V2<br>CEL</div>
+      <div class="dodeca-cell">V3<br>SIL</div>
+      <div class="dodeca-cell filled">V4<br>HON</div>
+      <div class="dodeca-cell">V5<br>MET</div>
+      <div class="dodeca-cell filled">V6<br>THC</div>
+      <div class="dodeca-cell">V7<br>CEL</div>
+      <div class="dodeca-cell filled">V8<br>SIL</div>
+      <div class="dodeca-cell">V9<br>HON</div>
+      <div class="dodeca-cell filled">V10<br>MET</div>
+      <div class="dodeca-cell">V11<br>THC</div>
+      <div class="dodeca-cell filled">V12<br>CEL</div>
+      <div class="dodeca-cell">V13<br>SIL</div>
+      <div class="dodeca-cell filled">V14<br>HON</div>
+      <div class="dodeca-cell">V15<br>MET</div>
+      <div class="dodeca-cell filled">V16<br>THC</div>
+      <div class="dodeca-cell">V17<br>CEL</div>
+      <div class="dodeca-cell filled">V18<br>SIL</div>
+      <div class="dodeca-cell">V19<br>HON</div>
+      <div class="dodeca-cell filled">V20<br>MET</div>
+    </div>
+    <div style="margin-top:16px; color:#666; font-size:0.85em;">
+      20 Vertices = 2+0 = <span class="highlight">2</span> (Duality/Balance) | 
+      12 Faces = 1+2 = <span class="highlight">3</span> (Expression) | 
+      30 Edges = 3+0 = <span class="highlight">3</span> (Expression)
+    </div>
+  </div>
+</div>
+
+<div class="origami-info">
+  <h3>ORIGAMI GEOMETRY = FREQUENCY ARCHITECTURE</h3>
+  <p><span class="highlight">Stargate (5 units):</span> Each Artifact = 1 compound. Joining pieces = LFO modulation bridges. Ring = harmonic cycle.</p>
+  <p><span class="highlight">Nexus (20 units):</span> Dodecahedron vertices = 20 compound positions. 60 joining pieces = full modulation matrix.</p>
+  <p><span class="highlight">Silver Rectangles:</span> Paper ratio = 1:sqrt(2) = 1.414... -> numerology <span class="highlight">6</span> (Diagonal/Vesica Piscis)</p>
+  <p><span class="highlight">Folding Sequence:</span> 29 steps = 2+9 = <span class="highlight">11</span> (Master Intuition) - the same Master Number in our system!</p>
+</div>
+
+<div class="card theta">
+  <div style="text-align:center; padding: 20px 0;">
+    <div style="font-size: 1.2em; color: #00d4ff; margin-bottom: 8px;">THETA SYNCHRONIZATION TRACK</div>
+    <div style="font-size: 4em; font-weight: bold; color: #00d4ff; text-shadow: 0 0 30px rgba(0,212,255,0.4);">285 Hz</div>
+    <div style="color: #888; margin-top: 12px;">SOLFEGGIO REGENERATIVE TONE | 4-7 Hz THETA | 60 MIN</div>
+    <div style="margin-top: 16px;">
+      <span class="card-badge badge-sig9">SIGNATURE 9</span>
+      <span class="card-badge badge-master">COMPLETION / WISDOM</span>
+    </div>
+  </div>
+</div>
+
+<div class="card-grid">
+
+  <div class="card thc">
+    <div class="card-title">THC</div>
+    <div class="card-formula">C21H30O2 | MW 314.46 | CID 16078</div>
+    <div>
+      <span class="card-badge badge-sig5">SIG 5</span>
+      <span class="card-badge badge-master">5 MASTERS</span>
+    </div>
+    <div class="card-stats">
+      <div class="stat"><div class="stat-label">Ultimate</div><div class="stat-value" style="color:#2E8B57;">5</div></div>
+      <div class="stat"><div class="stat-label">Sacred</div><div class="stat-value" style="color:#FFD700;">108</div></div>
+      <div class="stat"><div class="stat-label">LFO BPM</div><div class="stat-value" style="color:#2E8B57;">72</div></div>
+    </div>
+    <div class="card-footer">Freedom / Change | Spiritual Elevation | Cannabis</div>
+  </div>
+
+  <div class="card cellulose">
+    <div class="card-title">CELLULOSE</div>
+    <div class="card-formula">(C6H10O5)n | MW 162.14 | CID 140556</div>
+    <div>
+      <span class="card-badge badge-sig7">SIG 7</span>
+      <span class="card-badge badge-master">4 MASTERS</span>
+    </div>
+    <div class="card-stats">
+      <div class="stat"><div class="stat-label">Ultimate</div><div class="stat-value" style="color:#DEB887;">7</div></div>
+      <div class="stat"><div class="stat-label">Sacred</div><div class="stat-value" style="color:#FFD700;">144</div></div>
+      <div class="stat"><div class="stat-label">LFO BPM</div><div class="stat-value" style="color:#DEB887;">60</div></div>
+    </div>
+    <div class="card-footer">Spiritual Truth | Grounding | Cotton / Linen / White Sage</div>
+  </div>
+
+  <div class="card sildenafil">
+    <div class="card-title">SILDENAFIL</div>
+    <div class="card-formula">C28H38N6O11S | MW 666.70 | CID 135413523</div>
+    <div>
+      <span class="card-badge badge-sig6">SIG 6</span>
+      <span class="card-badge badge-master">2 MASTERS</span>
+    </div>
+    <div class="card-stats">
+      <div class="stat"><div class="stat-label">Ultimate</div><div class="stat-value" style="color:#4169E1;">6</div></div>
+      <div class="stat"><div class="stat-label">Sacred</div><div class="stat-value" style="color:#FFD700;">528</div></div>
+      <div class="stat"><div class="stat-label">LFO BPM</div><div class="stat-value" style="color:#4169E1;">153</div></div>
+    </div>
+    <div class="card-footer">Harmony / Service | Vitality | Viagra / Cialis</div>
+  </div>
+
+  <div class="card honey">
+    <div class="card-title">HONEY</div>
+    <div class="card-formula">C6H12O6 | MW 180.16 | CID 5988</div>
+    <div>
+      <span class="card-badge badge-sig4">SIG 4</span>
+      <span class="card-badge badge-master">1 MASTER</span>
+    </div>
+    <div class="card-stats">
+      <div class="stat"><div class="stat-label">Ultimate</div><div class="stat-value" style="color:#FFD700;">4</div></div>
+      <div class="stat"><div class="stat-label">Sacred</div><div class="stat-value" style="color:#FFD700;">216</div></div>
+      <div class="stat"><div class="stat-label">LFO BPM</div><div class="stat-value" style="color:#FFD700;">83</div></div>
+    </div>
+    <div class="card-footer">Foundation / Structure | Sweetness | Fructose / Glucose</div>
+  </div>
+
+  <div class="card meth">
+    <div class="card-title">METHAMPHETAMINE</div>
+    <div class="card-formula">C10H15N | MW 149.23 | CID 10836</div>
+    <div>
+      <span class="card-badge badge-sig7">SIG 7</span>
+      <span class="card-badge badge-master">5 MASTERS</span>
+    </div>
+    <div class="card-stats">
+      <div class="stat"><div class="stat-label">Ultimate</div><div class="stat-value" style="color:#FF4500;">7</div></div>
+      <div class="stat"><div class="stat-label">CID</div><div class="stat-value" style="color:#FF4500;">10836</div></div>
+      <div class="stat"><div class="stat-label">LFO</div><div class="stat-value" style="color:#FF4500;">--</div></div>
+    </div>
+    <div class="card-footer">Spiritual Truth | Power | PubChem Docket Analyzed</div>
+  </div>
+
+</div>
+
+<div class="audio-section">
+  <div class="section-title">MOLECULAR CHORDS - 432 Hz SCALED</div>
+  <div class="audio-grid">
+    
+    <div class="audio-card">
+      <div class="audio-title" style="color:#2E8B57;">THC Molecular Chord</div>
+      <div class="audio-meta">432Hz + 36.3Hz + 575.4Hz | 72 BPM Sine LFO</div>
+      <audio controls preload="none">
+        <source src="audio/thc_molecular_chord_432.wav" type="audio/wav">
+        Your browser does not support audio.
+      </audio>
+    </div>
+    
+    <div class="audio-card">
+      <div class="audio-title" style="color:#DEB887;">Cellulose Molecular Chord</div>
+      <div class="audio-meta">432Hz + 36.3Hz + 575.4Hz | 60 BPM Triangle LFO</div>
+      <audio controls preload="none">
+        <source src="audio/cellulose_molecular_chord_432.wav" type="audio/wav">
+        Your browser does not support audio.
+      </audio>
+    </div>
+    
+    <div class="audio-card">
+      <div class="audio-title" style="color:#4169E1;">Sildenafil Molecular Chord</div>
+      <div class="audio-meta">432Hz + 36.3Hz + 503.8Hz + 575.4Hz + 1153.1Hz | 153 BPM Saw LFO</div>
+      <audio controls preload="none">
+        <source src="audio/sildenafil_molecular_chord_432.wav" type="audio/wav">
+        Your browser does not support audio.
+      </audio>
+    </div>
+    
+    <div class="audio-card">
+      <div class="audio-title" style="color:#FFD700;">Honey Molecular Chord</div>
+      <div class="audio-meta">432Hz + 36.3Hz + 575.4Hz | 82.9 BPM Sine LFO</div>
+      <audio controls preload="none">
+        <source src="audio/honey_molecular_chord_432.wav" type="audio/wav">
+        Your browser does not support audio.
+      </audio>
+    </div>
+    
+  </div>
+</div>
+
+<div class="sacred-section">
+  <div class="section-title">SACRED GEOMETRY ALIGNMENT</div>
+  <div class="sacred-grid">
+    <div class="sacred-item"><div class="sacred-num">108</div><div class="sacred-arrow">--></div><div class="sacred-freq">9</div></div>
+    <div class="sacred-item"><div class="sacred-num">144</div><div class="sacred-arrow">--></div><div class="sacred-freq">9</div></div>
+    <div class="sacred-item"><div class="sacred-num">216</div><div class="sacred-arrow">--></div><div class="sacred-freq">9</div></div>
+    <div class="sacred-item"><div class="sacred-num">285</div><div class="sacred-arrow">--></div><div class="sacred-freq">6</div></div>
+    <div class="sacred-item"><div class="sacred-num">432</div><div class="sacred-arrow">--></div><div class="sacred-freq">9</div></div>
+    <div class="sacred-item"><div class="sacred-num">528</div><div class="sacred-arrow">--></div><div class="sacred-freq">6</div></div>
+    <div class="sacred-item"><div class="sacred-num">741</div><div class="sacred-arrow">--></div><div class="sacred-freq">3</div></div>
+    <div class="sacred-item"><div class="sacred-num">963</div><div class="sacred-arrow">--></div><div class="sacred-freq">9</div></div>
+  </div>
+</div>
+
+<div class="matrix-section">
+  <div class="section-title">THETA TRACK + COMPOUND INTEGRATION</div>
+  <div class="matrix-grid">
+    <div class="matrix-item">
+      <div class="matrix-pair">Track (9) + THC (5)</div>
+      <div class="matrix-result">5</div>
+      <div class="matrix-meaning">FREEDOM / CHANGE</div>
+    </div>
+    <div class="matrix-item">
+      <div class="matrix-pair">Track (9) + Cellulose (7)</div>
+      <div class="matrix-result">7</div>
+      <div class="matrix-meaning">SPIRITUAL TRUTH</div>
+    </div>
+    <div class="matrix-item">
+      <div class="matrix-pair">Track (9) + Sildenafil (6)</div>
+      <div class="matrix-result">6</div>
+      <div class="matrix-meaning">HARMONY / SERVICE</div>
+    </div>
+    <div class="matrix-item">
+      <div class="matrix-pair">Track (9) + Honey (4)</div>
+      <div class="matrix-result">4</div>
+      <div class="matrix-meaning">FOUNDATION / STRUCTURE</div>
+    </div>
+    <div class="matrix-item">
+      <div class="matrix-pair">Track (9) + Meth (7)</div>
+      <div class="matrix-result">7</div>
+      <div class="matrix-meaning">SPIRITUAL TRUTH</div>
+    </div>
+    <div class="matrix-item">
+      <div class="matrix-pair">THC (5) + Sildenafil (6)</div>
+      <div class="matrix-result master">11 *</div>
+      <div class="matrix-meaning">MASTER INTUITION</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-brand">FANTAZMA NETWORK</div>
+  <div>NEXUS Stargate Frequency System v3.0</div>
+  <div style="margin-top:4px;">Sacred Geometry | Origami Portal | Numerology | Molecular Audio</div>
+  <div style="margin-top:8px; color:#444;">mcnproductions.ca | virtue-vessel | David Mitchell Stargate & Nexus</div>
+</div>
+
+</div>
+</body>
+</html>
