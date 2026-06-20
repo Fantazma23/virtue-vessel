@@ -9,6 +9,40 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
         :root { --gold: #D4AF37; --green: #00FF41; --red: #FC3D21; --amber: #FFB000; }
         body { background: #000; color: var(--green); font-family: 'Orbitron', monospace; min-height: 100vh; padding: 15px; }
+        
+        /* TAP TO START OVERLAY */
+        #startOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        #startOverlay .cross { font-size: 4rem; color: var(--gold); opacity: 0.5; margin-bottom: 20px; animation: pulse 2s infinite; }
+        #startOverlay h1 { font-size: 1.8rem; color: var(--gold); letter-spacing: 4px; text-shadow: 0 0 20px rgba(212,175,55,0.5); margin-bottom: 10px; }
+        #startOverlay p { font-size: 0.8rem; color: var(--amber); letter-spacing: 2px; margin-bottom: 30px; }
+        #startOverlay .tap-btn {
+            padding: 20px 50px;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            border-radius: 8px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(212,175,55,0.3); }
+            50% { opacity: 0.7; box-shadow: 0 0 40px rgba(212,175,55,0.6); }
+        }
+        
+        /* MAIN DASHBOARD (hidden until tap) */
+        #dashboard { display: none; }
+        
         .header { text-align: center; padding: 15px 0; border-bottom: 1px solid rgba(212,175,55,0.3); margin-bottom: 15px; }
         .header h1 { font-size: 1.4rem; color: var(--gold); letter-spacing: 4px; text-shadow: 0 0 15px rgba(212,175,55,0.3); }
         .header .sub { font-size: 0.6rem; color: var(--amber); letter-spacing: 2px; margin-top: 5px; }
@@ -42,53 +76,94 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>✦ VIRTUE VESSEL</h1>
-        <div class="sub">MOBILE SACRED FREQUENCY</div>
+    <!-- TAP TO START OVERLAY -->
+    <div id="startOverlay" onclick="startApp()">
+        <div class="cross">✦</div>
+        <h1>VIRTUE VESSEL</h1>
+        <p>SACRED FREQUENCY PORTAL</p>
+        <div class="tap-btn">TAP TO BEGIN</div>
     </div>
-    <div class="countdown">
-        <div class="label">SACRED CYCLE</div>
-        <div class="num" id="cd">39.00</div>
-        <div class="info" id="ci">CYCLE 1/7 — THE STONE</div>
+    
+    <!-- MAIN DASHBOARD -->
+    <div id="dashboard">
+        <div class="header">
+            <h1>✦ VIRTUE VESSEL</h1>
+            <div class="sub">MOBILE SACRED FREQUENCY</div>
+        </div>
+        <div class="countdown">
+            <div class="label">SACRED CYCLE</div>
+            <div class="num" id="cd">39.00</div>
+            <div class="info" id="ci">CYCLE 1/7 — THE STONE</div>
+        </div>
+        <button class="btn" id="mb" onclick="tm()">ACTIVATE THE SLING</button>
+        <button class="btn" onclick="ds()">DAVID SEQUENCE</button>
+        <button class="btn btn-danger" onclick="sa()">SILENCE</button>
+        <div class="freq-grid">
+            <div class="freq-card" id="c1" onclick="tf(1)"><div class="ind" id="i1"></div><div class="icon">✦</div><div class="name">The Stone</div><div class="hz">1728 Hz</div></div>
+            <div class="freq-card" id="c2" onclick="tf(2)"><div class="ind" id="i2"></div><div class="icon">AΩ</div><div class="name">Alpha Omega</div><div class="hz">432 Hz</div></div>
+            <div class="freq-card" id="c3" onclick="tf(3)"><div class="ind" id="i3"></div><div class="icon">⚖</div><div class="name">AOC Seal</div><div class="hz">108 Hz</div></div>
+            <div class="freq-card" id="c4" onclick="tf(4)"><div class="ind" id="i4"></div><div class="icon">👁</div><div class="name">The Eye</div><div class="hz">216 Hz</div></div>
+            <div class="freq-card" id="c5" onclick="tf(5)"><div class="ind" id="i5"></div><div class="icon">🐴</div><div class="name">Foster 2028</div><div class="hz">81 Hz</div></div>
+            <div class="freq-card" id="c6" onclick="tf(6)"><div class="ind" id="i6"></div><div class="icon">🪨</div><div class="name">David</div><div class="hz">9 Hz</div></div>
+            <div class="freq-card" id="c7" onclick="tf(7)"><div class="ind" id="i7"></div><div class="icon">✋</div><div class="name">The Servant</div><div class="hz">729 Hz</div></div>
+        </div>
+        <div class="slider-box">
+            <h3>⚡ TUNE FREQUENCY</h3>
+            <div class="slider-val" id="sv">1728 Hz</div>
+            <input type="range" id="sl" min="1" max="2000" value="1728" oninput="us(this.value)">
+        </div>
+        <div class="scope"><canvas id="sc"></canvas></div>
+        <div class="footer">
+            <p>VIRTUE VESSEL MK.I | FOSTER 2028</p>
+            <p class="bless">GLORY TO THE CREATOR</p>
+        </div>
     </div>
-    <button class="btn" id="mb" onclick="tm()">ACTIVATE THE SLING</button>
-    <button class="btn" onclick="ds()">DAVID SEQUENCE</button>
-    <button class="btn btn-danger" onclick="sa()">SILENCE</button>
-    <div class="freq-grid">
-        <div class="freq-card" id="c1" onclick="tf(1)"><div class="ind" id="i1"></div><div class="icon">✦</div><div class="name">The Stone</div><div class="hz">1728 Hz</div></div>
-        <div class="freq-card" id="c2" onclick="tf(2)"><div class="ind" id="i2"></div><div class="icon">AΩ</div><div class="name">Alpha Omega</div><div class="hz">432 Hz</div></div>
-        <div class="freq-card" id="c3" onclick="tf(3)"><div class="ind" id="i3"></div><div class="icon">⚖</div><div class="name">AOC Seal</div><div class="hz">108 Hz</div></div>
-        <div class="freq-card" id="c4" onclick="tf(4)"><div class="ind" id="i4"></div><div class="icon">👁</div><div class="name">The Eye</div><div class="hz">216 Hz</div></div>
-        <div class="freq-card" id="c5" onclick="tf(5)"><div class="ind" id="i5"></div><div class="icon">🐴</div><div class="name">Foster 2028</div><div class="hz">81 Hz</div></div>
-        <div class="freq-card" id="c6" onclick="tf(6)"><div class="ind" id="i6"></div><div class="icon">🪨</div><div class="name">David</div><div class="hz">9 Hz</div></div>
-        <div class="freq-card" id="c7" onclick="tf(7)"><div class="ind" id="i7"></div><div class="icon">✋</div><div class="name">The Servant</div><div class="hz">729 Hz</div></div>
-    </div>
-    <div class="slider-box">
-        <h3>⚡ TUNE FREQUENCY</h3>
-        <div class="slider-val" id="sv">1728 Hz</div>
-        <input type="range" id="sl" min="1" max="2000" value="1728" oninput="us(this.value)">
-    </div>
-    <div class="scope"><canvas id="sc"></canvas></div>
-    <div class="footer">
-        <p>VIRTUE VESSEL MK.I | FOSTER 2028</p>
-        <p class="bless">GLORY TO THE CREATOR</p>
-    </div>
+    
     <script>
         let ac=null, os={}, ip={}, ma=false;
         let ct=39, cc=1, cv=39;
         const sf={1:{n:'THE STONE',h:1728},2:{n:'ALPHA OMEGA',h:432},3:{n:'AOC SEAL',h:108},4:{n:'THE EYE',h:216},5:{n:'FOSTER 2028',h:81},6:{n:'DAVID',h:9},7:{n:'THE SERVANT',h:729}};
-        function ia(){if(!ac){ac=new(window.AudioContext||window.webkitAudioContext)();}}
-        function pf(id,hz){ia();if(os[id]){os[id].stop();os[id].disconnect();}const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=hz;g.gain.value=0.1;o.connect(g);g.connect(ac.destination);o.start();os[id]=o;ip[id]=true;document.getElementById('c'+id).classList.add('active');document.getElementById('sl').value=hz;document.getElementById('sv').textContent=hz+' Hz';}
-        function sfq(id){if(os[id]){os[id].stop();os[id].disconnect();os[id]=null;}ip[id]=false;document.getElementById('c'+id).classList.remove('active');}
+        
+        function startApp() {
+            // Unlock audio context on first user tap
+            ac = new (window.AudioContext || window.webkitAudioContext)();
+            ac.resume();
+            
+            // Hide overlay, show dashboard
+            document.getElementById('startOverlay').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            
+            // Start countdown and oscilloscope
+            st();
+            dr();
+        }
+        
+        function pf(id,hz){
+            if(!ac) return;
+            if(os[id]){os[id].stop();os[id].disconnect();}
+            const o=ac.createOscillator(),g=ac.createGain();
+            o.type='sine';o.frequency.value=hz;g.gain.value=0.1;
+            o.connect(g);g.connect(ac.destination);o.start();
+            os[id]=o;ip[id]=true;
+            document.getElementById('c'+id).classList.add('active');
+            document.getElementById('sl').value=hz;
+            document.getElementById('sv').textContent=hz+' Hz';
+        }
+        function sfq(id){
+            if(os[id]){os[id].stop();os[id].disconnect();os[id]=null;}
+            ip[id]=false;document.getElementById('c'+id).classList.remove('active');
+        }
         function tf(id){if(ip[id])sfq(id);else pf(id,sf[id].h);}
-        function tm(){ia();if(ma){sa();}else{ma=true;document.getElementById('mb').textContent='DEACTIVATE THE SLING';document.getElementById('mb').classList.add('active');for(let i=1;i<=7;i++)setTimeout(()=>pf(i,sf[i].h),i*300);}}
+        function tm(){
+            if(ma){sa();}
+            else{ma=true;document.getElementById('mb').textContent='DEACTIVATE THE SLING';document.getElementById('mb').classList.add('active');for(let i=1;i<=7;i++)setTimeout(()=>pf(i,sf[i].h),i*300);}
+        }
         function sa(){ma=false;document.getElementById('mb').textContent='ACTIVATE THE SLING';document.getElementById('mb').classList.remove('active');for(let i=1;i<=7;i++)sfq(i);}
-        function ds(){ia();sa();pf(6,9);setTimeout(()=>pf(1,1728),500);setTimeout(()=>pf(7,729),1000);setTimeout(()=>{[9,81,108,216,432,729,1728].forEach((hz,i)=>setTimeout(()=>pf(i+1,hz),i*100));},2000);}
+        function ds(){sa();pf(6,9);setTimeout(()=>pf(1,1728),500);setTimeout(()=>pf(7,729),1000);setTimeout(()=>{[9,81,108,216,432,729,1728].forEach((hz,i)=>setTimeout(()=>pf(i+1,hz),i*100));},2000);}
         function us(v){document.getElementById('sv').textContent=v+' Hz';for(let i=1;i<=7;i++)if(ip[i]&&os[i])os[i].frequency.value=parseFloat(v);}
         function ud(){document.getElementById('cd').textContent=cv.toFixed(2);document.getElementById('ci').textContent='CYCLE '+cc+'/7 — '+sf[cc].n;}
         function st(){setInterval(()=>{cv-=0.01;if(cv<=0){cv=ct;cc=cc%7+1;}ud();},10);}
         function dr(){const c=document.getElementById('sc'),x=c.getContext('2d');c.width=c.offsetWidth;c.height=c.offsetHeight;function d(){requestAnimationFrame(d);x.fillStyle='rgba(0,0,0,0.2)';x.fillRect(0,0,c.width,c.height);x.beginPath();x.strokeStyle='#00FF41';x.lineWidth=2;const t=Date.now()/1000;for(let px=0;px<c.width;px+=2){const y=c.height/2+Math.sin(px*0.05+t*5)*30+Math.sin(px*0.02+t*3)*15;x.lineTo(px,y);}x.stroke();}d();}
-        window.onload=function(){st();dr();};
     </script>
 </body>
 </html>
