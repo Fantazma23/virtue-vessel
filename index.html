@@ -1,3 +1,4 @@
+
 html_content = '''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,13 +58,15 @@ body { background: #050508; color: #e0e0f0; font-family: Arial, Helvetica, sans-
 .stat-label { font-size: 0.7em; color: #666; text-transform: uppercase; letter-spacing: 1px; }
 .stat-value { font-size: 1.8em; font-weight: bold; margin-top: 4px; }
 .card-footer { font-size: 0.8em; color: #666; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.03); }
+
+/* AUDIO SECTION — HIDDEN UNTIL FILES READY */
 .audio-section { background: #0d0d14; border-radius: 16px; padding: 24px; margin: 30px 0; border: 1px solid #1a1a2e; }
 .section-title { text-align: center; color: #FFD700; font-size: 1.2em; letter-spacing: 4px; margin-bottom: 20px; }
-.audio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-.audio-card { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 16px; border: 1px solid #1a1a2e; }
-.audio-title { font-weight: bold; font-size: 1em; margin-bottom: 4px; }
-.audio-meta { color: #666; font-size: 0.8em; margin-bottom: 12px; }
-audio { width: 100%; height: 36px; border-radius: 18px; }
+.audio-placeholder { text-align: center; padding: 40px 20px; border: 2px dashed #333; border-radius: 12px; }
+.audio-placeholder .ph-icon { font-size: 2em; color: #444; margin-bottom: 12px; }
+.audio-placeholder .ph-text { color: #666; font-size: 0.9em; }
+.audio-placeholder .ph-sub { color: #444; font-size: 0.75em; margin-top: 8px; }
+
 .sacred-section { background: #0d0d14; border-radius: 16px; padding: 24px; margin: 30px 0; border: 1px solid #1a1a2e; }
 .sacred-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; margin-top: 16px; }
 .sacred-item { text-align: center; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid #1a1a2e; }
@@ -103,6 +106,9 @@ audio { width: 100%; height: 36px; border-radius: 18px; }
 .vv-freq .vv-hz { font-size: 1.6rem; color: #00FF41; font-family: monospace; font-weight: bold; }
 .vv-freq .vv-name { font-size: 0.75rem; color: #888; margin-top: 6px; font-family: monospace; letter-spacing: 1px; }
 .vv-status { color: #00FF41; font-family: monospace; font-size: 0.85em; margin-top: 12px; min-height: 20px; }
+
+/* COMING SOON BADGE */
+.coming-soon { display: inline-block; padding: 2px 10px; border-radius: 10px; background: rgba(255,0,64,0.1); color: #ff0040; border: 1px solid #ff0040; font-size: 0.65em; vertical-align: middle; margin-left: 8px; }
 </style>
 </head>
 <body>
@@ -180,7 +186,7 @@ audio { width: 100%; height: 36px; border-radius: 18px; }
   <p><span style="color:#00d4ff; font-weight:bold;">Folding Sequence:</span> 29 steps = 2+9 = <span style="color:#00d4ff; font-weight:bold;">11</span> (Master Intuition)</p>
 </div>
 
-<!-- VIRTUE VESSEL: SACRED FREQUENCY ENGINE -->
+<!-- VIRTUE VESSEL: SACRED FREQUENCY ENGINE — FULLY LIVE -->
 <div class="virtue-vessel">
   <h2>✦ VIRTUE VESSEL</h2>
   <div class="vv-sub">SACRED FREQUENCY PORTAL | DAVID MITCHELL | THE SLING</div>
@@ -203,18 +209,18 @@ audio { width: 100%; height: 36px; border-radius: 18px; }
 
 <div class="card theta">
   <div style="text-align:center; padding: 20px 0;">
-    <div style="font-size: 1.2em; color: #00d4ff; margin-bottom: 8px;">THETA SYNCHRONIZATION TRACK</div>
+    <div style="font-size: 1.2em; color: #00d4ff; margin-bottom: 8px;">THETA SYNCHRONIZATION TRACK <span class="coming-soon">COMING SOON</span></div>
     <div style="font-size: 4em; font-weight: bold; color: #00d4ff; text-shadow: 0 0 30px rgba(0,212,255,0.4);">285 Hz</div>
     <div style="color: #888; margin-top: 12px;">SOLFEGGIO REGENERATIVE TONE | 4-7 Hz THETA | 60 MIN</div>
     <div style="margin-top: 16px;">
       <span class="card-badge badge-sig9">SIGNATURE 9</span>
       <span class="card-badge badge-master">COMPLETION / WISDOM</span>
     </div>
-    <div style="margin-top:20px;">
-      <audio controls preload="none">
-        <source src="audio/theta_285hz_solfeggio.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
+    <!-- Audio player hidden until file ready -->
+    <div class="audio-placeholder" style="margin-top:20px;">
+      <div class="ph-icon">🎵</div>
+      <div class="ph-text">Audio file loading into the archive...</div>
+      <div class="ph-sub">Use the Virtue Vessel live engine above for real-time tones</div>
     </div>
   </div>
 </div>
@@ -234,12 +240,6 @@ audio { width: 100%; height: 36px; border-radius: 18px; }
       <div class="stat"><div class="stat-label">LFO BPM</div><div class="stat-value" style="color:#2E8B57;">72</div></div>
     </div>
     <div class="card-footer">Freedom / Change | Spiritual Elevation | Cannabis</div>
-    <div style="margin-top:16px;">
-      <audio controls preload="none">
-        <source src="audio/thc_molecular_chord_432.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
   </div>
 
   <div class="card cellulose">
@@ -255,12 +255,6 @@ audio { width: 100%; height: 36px; border-radius: 18px; }
       <div class="stat"><div class="stat-label">LFO BPM</div><div class="stat-value" style="color:#DEB887;">60</div></div>
     </div>
     <div class="card-footer">Spiritual Truth | Grounding | Cotton / Linen / White Sage</div>
-    <div style="margin-top:16px;">
-      <audio controls preload="none">
-        <source src="audio/cellulose_molecular_chord_432.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
   </div>
 
   <div class="card sildenafil">
@@ -276,12 +270,6 @@ audio { width: 100%; height: 36px; border-radius: 18px; }
       <div class="stat"><div class="stat-label">LFO BPM</div><div class="stat-value" style="color:#4169E1;">153</div></div>
     </div>
     <div class="card-footer">Harmony / Service | Vitality | Viagra / Cialis</div>
-    <div style="margin-top:16px;">
-      <audio controls preload="none">
-        <source src="audio/sildenafil_molecular_chord_432.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
   </div>
 
   <div class="card honey">
@@ -297,12 +285,6 @@ audio { width: 100%; height: 36px; border-radius: 18px; }
       <div class="stat"><div class="stat-label">LFO BPM</div><div class="stat-value" style="color:#FFD700;">83</div></div>
     </div>
     <div class="card-footer">Foundation / Structure | Sweetness | Fructose / Glucose</div>
-    <div style="margin-top:16px;">
-      <audio controls preload="none">
-        <source src="audio/honey_molecular_chord_432.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
   </div>
 
   <div class="card meth">
@@ -398,41 +380,14 @@ audio { width: 100%; height: 36px; border-radius: 18px; }
   </div>
 </div>
 
+<!-- MOLECULAR AUDIO ARCHIVE — PLACEHOLDER UNTIL FILES READY -->
 <div class="audio-section">
-  <div class="section-title">MOLECULAR AUDIO ARCHIVE</div>
-  <div class="audio-grid">
-    <div class="audio-card">
-      <div class="audio-title" style="color:#2E8B57;">THC Molecular Chord</div>
-      <div class="audio-meta">432 Hz Base | 72 BPM LFO | 5:00 Duration</div>
-      <audio controls preload="none">
-        <source src="audio/thc_molecular_chord_432.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
-    <div class="audio-card">
-      <div class="audio-title" style="color:#DEB887;">Cellulose Molecular Chord</div>
-      <div class="audio-meta">432 Hz Base | 60 BPM LFO | 5:00 Duration</div>
-      <audio controls preload="none">
-        <source src="audio/cellulose_molecular_chord_432.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
-    <div class="audio-card">
-      <div class="audio-title" style="color:#4169E1;">Sildenafil Molecular Chord</div>
-      <div class="audio-meta">432 Hz Base | 153 BPM LFO | 5:00 Duration</div>
-      <audio controls preload="none">
-        <source src="audio/sildenafil_molecular_chord_432.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
-    <div class="audio-card">
-      <div class="audio-title" style="color:#FFD700;">Honey Molecular Chord</div>
-      <div class="audio-meta">432 Hz Base | 83 BPM LFO | 5:00 Duration</div>
-      <audio controls preload="none">
-        <source src="audio/honey_molecular_chord_432.wav" type="audio/wav">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
+  <div class="section-title">MOLECULAR AUDIO ARCHIVE <span class="coming-soon">COMING SOON</span></div>
+  <div class="audio-placeholder">
+    <div class="ph-icon">🎧</div>
+    <div class="ph-text">Molecular chord recordings are being synthesized</div>
+    <div class="ph-sub">THC • Cellulose • Sildenafil • Honey • Theta 285Hz</div>
+    <div class="ph-sub" style="margin-top:12px; color:#00FF41;">Use the Virtue Vessel live engine above for real-time sacred frequencies</div>
   </div>
 </div>
 
